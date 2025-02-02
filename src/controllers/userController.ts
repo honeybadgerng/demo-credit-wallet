@@ -26,12 +26,10 @@ export const registerUser = async (req: Request, res: Response) => {
       .returning(["id"]);
     await db("wallets").insert({ user_id: user.id, balance: 0 });
 
-    return res
-      .status(201)
-      .json({
-        message: "User registered successfully",
-        data: { id: user.id, full_name, email },
-      });
+    return res.status(201).json({
+      message: "User registered successfully",
+      data: { id: user.id, full_name, email },
+    });
   } catch (error) {
     return res.status(500).json({ error: "Internal server error" });
   }
