@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 import db from "../config/db";
 import { runTransaction } from "../utils/transactionHelper";
 
-// 🏦 Fund Wallet
+//  Fund Wallet
 export const fundWallet = async (req: Request, res: Response) => {
   try {
     const { user_id, amount } = req.body;
@@ -27,7 +27,7 @@ export const fundWallet = async (req: Request, res: Response) => {
   }
 };
 
-// 🔁 Transfer Funds
+//  Transfer Funds
 export const transferFunds = async (req: Request, res: Response) => {
   try {
     const { sender_id, receiver_id, amount } = req.body;
@@ -73,11 +73,11 @@ export const transferFunds = async (req: Request, res: Response) => {
   } catch (error) {
     return res
       .status(500)
-      .json({ error: error.message || "Internal server error" });
+      .json({ error: (error as Error).message || "Internal server error" });
   }
 };
 
-// 💸 Withdraw Funds
+//  Withdraw Funds
 export const withdrawFunds = async (req: Request, res: Response) => {
   try {
     const { user_id, amount } = req.body;
@@ -106,6 +106,6 @@ export const withdrawFunds = async (req: Request, res: Response) => {
   } catch (error) {
     return res
       .status(500)
-      .json({ error: error.message || "Internal server error" });
+      .json({ error: (error as Error).message || "Internal server error" });
   }
 };
