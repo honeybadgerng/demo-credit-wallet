@@ -23,12 +23,12 @@ An API for managing user wallets, transactions, and funds.
 
 ## Database Schema
 
-[E-R Diagram]
+![E-R Diagram](<public/Lendsqr%20(1).png>)
 
 ## Setup Instructions
 
-- Clone repo
-- Run `npm install`
-- Configure `.env`
-- Run migrations `knex migrate:latest`
-- Start server `npm run dev`
+1. Clone the repository
+2. Run `npm install`
+3. Configure `.env`
+4. Run migrations: `knex migrate:latest`
+5. Start the server: `npm run dev`
