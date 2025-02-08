@@ -12,13 +12,10 @@ export const registerUser = async (
 
     // Check blacklist
     const karmaResponse = await axios.get(
-      `https://api.lendsqr.com/adjutor/karma?email=${email}`,
-      {
-        headers: { Authorization: `Bearer ${process.env.LENDSQR_API_KEY}` },
-      }
+      `https://adjutor.lendsqr.com/v2/verification/karma/${email}`,
+      { headers: { Authorization: `Bearer ${process.env.LENDSQR_API_KEY}` } }
     );
-
-    if (karmaResponse.data.is_blacklisted) {
+    if (karmaResponse.data.status === "success" && karmaResponse.data.data) {
       res
         .status(403)
         .json({ error: "User is blacklisted and cannot be onboarded" });
@@ -26,10 +23,25 @@ export const registerUser = async (
     }
 
     // Insert user and create wallet
-    const [user] = await db("users")
-      .insert({ full_name, email, phone })
-      .returning(["id"]);
+    const insertResult = await db("users").insert({ full_name, email, phone });
 
+    if (!insertResult) {
+      throw new Error(
+        "User registration failed: Insertion did not return an ID"
+      );
+    }
+
+    // Retrieve the last inserted user using the email or phone (since ID is not directly returned in MySQL)
+    const user = await db("users").where({ email }).first();
+
+    if (!user || !user.id) {
+      console.error("🚨 Failed to retrieve user after insertion:", user);
+      throw new Error(
+        "User registration failed: No user ID found after insertion"
+      );
+    }
+
+    // Create wallet for user
     await db("wallets").insert({ user_id: user.id, balance: 0 });
 
     res.status(201).json({
