@@ -1,9 +1,12 @@
 import { Request, Response } from "express";
-import db from "../config/db";
 import { runTransaction } from "../utils/transactionHelper";
 
 //  Fund Wallet
-export const fundWallet = async (req: Request, res: Response) => {
+export const fundWallet = async (
+  req: Request,
+  res: Response
+): Promise<Response> => {
+  // Explicitly define return type
   try {
     const { user_id, amount } = req.body;
 
@@ -28,7 +31,11 @@ export const fundWallet = async (req: Request, res: Response) => {
 };
 
 //  Transfer Funds
-export const transferFunds = async (req: Request, res: Response) => {
+export const transferFunds = async (
+  req: Request,
+  res: Response
+): Promise<Response> => {
+  // Explicit return type
   try {
     const { sender_id, receiver_id, amount } = req.body;
 
@@ -71,6 +78,7 @@ export const transferFunds = async (req: Request, res: Response) => {
 
     return res.status(200).json({ message: "Transfer successful" });
   } catch (error) {
+    console.error("⚠️ Fund Wallet Error:", error);
     return res
       .status(500)
       .json({ error: (error as Error).message || "Internal server error" });
@@ -78,7 +86,11 @@ export const transferFunds = async (req: Request, res: Response) => {
 };
 
 //  Withdraw Funds
-export const withdrawFunds = async (req: Request, res: Response) => {
+export const withdrawFunds = async (
+  req: Request,
+  res: Response
+): Promise<Response> => {
+  // Explicit return type
   try {
     const { user_id, amount } = req.body;
 
