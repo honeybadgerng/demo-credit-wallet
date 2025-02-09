@@ -11,16 +11,16 @@ export const registerUser = async (
     const { full_name, email, phone } = req.body;
 
     // Check blacklist
-    // const karmaResponse = await axios.get(
-    //   `https://adjutor.lendsqr.com/v2/verification/karma/${email}`,
-    //   { headers: { Authorization: `Bearer ${process.env.LENDSQR_API_KEY}` } }
-    // );
-    // if (karmaResponse.data.status === "success" && karmaResponse.data.data) {
-    //   res
-    //     .status(403)
-    //     .json({ error: "User is blacklisted and cannot be onboarded" });
-    //   return;
-    // }
+    const karmaResponse = await axios.get(
+      `https://adjutor.lendsqr.com/v2/verification/karma/${email}`,
+      { headers: { Authorization: `Bearer ${process.env.LENDSQR_API_KEY}` } }
+    );
+    if (karmaResponse.data.status === "success" && karmaResponse.data.data) {
+      res
+        .status(403)
+        .json({ error: "User is blacklisted and cannot be onboarded" });
+      return;
+    }
 
     // Insert user and create wallet
     const insertResult = await db("users").insert({ full_name, email, phone });
