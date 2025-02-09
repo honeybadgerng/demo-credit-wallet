@@ -3,10 +3,11 @@ import express from "express";
 import cors from "cors";
 import helmet from "helmet";
 import userRoutes from "./src/routes/userRoutes";
+import walletRoutes from "./src/routes/walletRoutes";
 
 dotenv.config();
 
-const app = express();
+export const app = express();
 const PORT = process.env.PORT || 5000;
 
 // Middleware
@@ -16,6 +17,7 @@ app.use(express.json());
 
 // Routes
 app.use("/api/users", userRoutes);
+app.use("/api/wallets", walletRoutes);
 
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
