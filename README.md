@@ -19,7 +19,7 @@ An API for managing user wallets, transactions, and funds.
 
 ## API Documentation
 
-[Include API contracts & request examples]
+https://docs.google.com/document/d/1Hrx6GJ5wlTICYWTRIXPJ1vR-KkPXM3SvzG7DD2FfpyQ/edit?usp=sharing
 
 ## Database Schema
 
